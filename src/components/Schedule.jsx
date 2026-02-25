@@ -1,13 +1,16 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { Calendar, Clock, Video } from 'lucide-react';
 
 export default function Schedule() {
+  const widgetRef = useRef(null);
+
   useEffect(() => {
     const initWidget = () => {
-      if (window.Calendly) {
+      if (window.Calendly && widgetRef.current) {
+        widgetRef.current.innerHTML = '';
         window.Calendly.initInlineWidget({
           url: 'https://calendly.com/kristi-kristicattcoaching/30min?hide_gdpr_banner=1&background_color=ffffff&text_color=1a1a1a&primary_color=2c5f4a',
-          parentElement: document.getElementById('calendly-inline-widget'),
+          parentElement: widgetRef.current,
         });
       }
     };
@@ -21,6 +24,19 @@ export default function Schedule() {
         return () => script.removeEventListener('load', initWidget);
       }
     }
+
+    const handleMessage = (e) => {
+      if (e.data.event === 'calendly.page_height' && widgetRef.current) {
+        const iframe = widgetRef.current.querySelector('iframe');
+        if (iframe) {
+          iframe.style.height = e.data.payload.height + 'px';
+          widgetRef.current.style.height = e.data.payload.height + 'px';
+        }
+      }
+    };
+
+    window.addEventListener('message', handleMessage);
+    return () => window.removeEventListener('message', handleMessage);
   }, []);
 
   return (
@@ -60,8 +76,8 @@ export default function Schedule() {
         {/* Calendly Inline Widget */}
         <div className="max-w-4xl mx-auto">
           <div
-            id="calendly-inline-widget"
-            style={{ minWidth: '320px', height: '700px' }}
+            ref={widgetRef}
+            style={{ minWidth: '320px', height: '1050px', overflow: 'hidden' }}
           />
           <p className="text-center text-sm text-neutral-700 mt-6">
             Don't see a time that works?{' '}
