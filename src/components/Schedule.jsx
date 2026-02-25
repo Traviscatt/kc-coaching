@@ -1,6 +1,28 @@
+import { useEffect } from 'react';
 import { Calendar, Clock, Video } from 'lucide-react';
 
 export default function Schedule() {
+  useEffect(() => {
+    const initWidget = () => {
+      if (window.Calendly) {
+        window.Calendly.initInlineWidget({
+          url: 'https://calendly.com/kristi-kristicattcoaching/30min?hide_gdpr_banner=1&background_color=ffffff&text_color=1a1a1a&primary_color=2c5f4a',
+          parentElement: document.getElementById('calendly-inline-widget'),
+        });
+      }
+    };
+
+    if (window.Calendly) {
+      initWidget();
+    } else {
+      const script = document.querySelector('script[src*="calendly"]');
+      if (script) {
+        script.addEventListener('load', initWidget);
+        return () => script.removeEventListener('load', initWidget);
+      }
+    }
+  }, []);
+
   return (
     <section id="schedule" className="py-20 sm:py-28 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -35,20 +57,13 @@ export default function Schedule() {
           </div>
         </div>
 
-        {/* Calendly Embed */}
-        <div className="max-w-4xl mx-auto bg-neutral-50 rounded-2xl p-4 sm:p-8 shadow-sm border border-neutral-200">
-          <div className="bg-white rounded-xl overflow-hidden min-h-[600px] flex items-center justify-center">
-            <iframe
-              src="https://calendly.com/kristi-kristicattcoaching/30min"
-              width="100%"
-              height="700"
-              frameBorder="0"
-              title="Schedule a consultation"
-              className="w-full border-0"
-              style={{ minHeight: '600px' }}
-            />
-          </div>
-          <p className="text-center text-sm text-neutral-700 mt-4">
+        {/* Calendly Inline Widget */}
+        <div className="max-w-4xl mx-auto">
+          <div
+            id="calendly-inline-widget"
+            style={{ minWidth: '320px', height: '700px' }}
+          />
+          <p className="text-center text-sm text-neutral-700 mt-6">
             Don't see a time that works?{' '}
             <a href="#contact" className="text-primary hover:text-primary-light font-medium no-underline">
               Contact me directly
