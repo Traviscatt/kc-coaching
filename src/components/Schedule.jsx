@@ -38,12 +38,8 @@ export default function Schedule() {
         {/* Calendly Embed */}
         <div className="max-w-4xl mx-auto bg-neutral-50 rounded-2xl p-4 sm:p-8 shadow-sm border border-neutral-200">
           <div className="bg-white rounded-xl overflow-hidden min-h-[600px] flex items-center justify-center">
-            {/* 
-              Replace the URL below with your actual Calendly link.
-              Example: https://calendly.com/your-username/30min
-            */}
             <iframe
-              src="https://calendly.com/your-username/30min"
+              src="https://calendly.com/kristi-kristicattcoaching/30min"
               width="100%"
               height="700"
               frameBorder="0"
