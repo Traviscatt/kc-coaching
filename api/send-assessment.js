@@ -1,5 +1,13 @@
 import { Resend } from 'resend';
 
+export const config = {
+  api: {
+    bodyParser: {
+      sizeLimit: '10mb',
+    },
+  },
+};
+
 const COACH_EMAIL = 'kristi@kristicattcoaching.com';
 
 export default async function handler(req, res) {
