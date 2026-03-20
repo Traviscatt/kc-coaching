@@ -20,13 +20,8 @@ export default function Navbar() {
     setMobileOpen(false);
     if (isSubPage) {
       e.preventDefault();
-      navigate('/');
-      setTimeout(() => {
-        const id = href.split('#')[1];
-        if (id) {
-          document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
-        }
-      }, 100);
+      const id = href.split('#')[1];
+      navigate('/', { state: { scrollTo: id } });
     }
   }, [isSubPage, navigate]);
 
