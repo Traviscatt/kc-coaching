@@ -651,24 +651,18 @@ export default function AssessmentForm() {
       const doc = generateAssessmentPDF(formData, LIFE_AREAS);
       pdfDocRef.current = doc;
 
-      // Get PDF as base64 using arraybuffer -> btoa conversion
-      const arrayBuffer = doc.output('arraybuffer');
-      const uint8Array = new Uint8Array(arrayBuffer);
-      let binary = '';
-      for (let i = 0; i < uint8Array.length; i++) {
-        binary += String.fromCharCode(uint8Array[i]);
-      }
-      const pdfBase64 = btoa(binary);
+      // Get PDF as blob for upload
+      const pdfBlob = doc.output('blob');
 
-      // Send PDF to Vercel API route which emails it via Resend
+      // Send PDF via FormData to avoid base64/JSON size issues
+      const fd = new FormData();
+      fd.append('pdf', pdfBlob, 'assessment.pdf');
+      fd.append('clientName', formData.fullName);
+      fd.append('clientEmail', formData.email || '');
+
       const response = await fetch('/api/send-assessment', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          pdfBase64,
-          clientName: formData.fullName,
-          clientEmail: formData.email,
-        }),
+        body: fd,
       });
 
       const result = await response.json();

@@ -1,17 +1,26 @@
 import { Resend } from 'resend';
+import formidable from 'formidable';
+import { readFileSync } from 'fs';
 
 export const config = {
   api: {
-    bodyParser: {
-      sizeLimit: '10mb',
-    },
+    bodyParser: false,
   },
 };
 
 const COACH_EMAIL = 'kristi@kristicattcoaching.com';
 
+function parseForm(req) {
+  return new Promise((resolve, reject) => {
+    const form = formidable({ maxFileSize: 10 * 1024 * 1024 });
+    form.parse(req, (err, fields, files) => {
+      if (err) reject(err);
+      else resolve({ fields, files });
+    });
+  });
+}
+
 export default async function handler(req, res) {
-  // Enable CORS
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
@@ -32,14 +41,22 @@ export default async function handler(req, res) {
   const resend = new Resend(process.env.RESEND_API_KEY);
 
   try {
-    const { pdfBase64, clientName, clientEmail } = req.body;
+    const { fields, files } = await parseForm(req);
 
-    if (!pdfBase64 || !clientName) {
-      return res.status(400).json({ error: 'Missing required fields: pdfBase64 and clientName are required' });
+    const clientName = Array.isArray(fields.clientName) ? fields.clientName[0] : fields.clientName;
+    const clientEmail = Array.isArray(fields.clientEmail) ? fields.clientEmail[0] : fields.clientEmail;
+    const pdfFile = Array.isArray(files.pdf) ? files.pdf[0] : files.pdf;
+
+    if (!pdfFile || !clientName) {
+      return res.status(400).json({ error: 'Missing required fields' });
     }
 
+    // Read the uploaded PDF file as a Buffer
+    const pdfBuffer = readFileSync(pdfFile.filepath);
+    const pdfBase64 = pdfBuffer.toString('base64');
+
     console.log(`Sending assessment email for: ${clientName} (${clientEmail || 'no email'})`);
-    console.log(`PDF base64 length: ${pdfBase64.length}`);
+    console.log(`PDF size: ${pdfBuffer.length} bytes`);
 
     const { data, error } = await resend.emails.send({
       from: 'KC Coaching <onboarding@resend.dev>',
