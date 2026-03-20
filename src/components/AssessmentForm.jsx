@@ -1,6 +1,7 @@
-import { useState } from 'react';
-import { ChevronLeft, ChevronRight, CheckCircle, ClipboardList } from 'lucide-react';
+import { useState, useRef } from 'react';
+import { ChevronLeft, ChevronRight, CheckCircle, ClipboardList, Download, Loader2 } from 'lucide-react';
 import Footer from './Footer';
+import generateAssessmentPDF from '../utils/generateAssessmentPDF';
 
 const LIFE_AREAS = [
   'Career/Employment Satisfaction',
@@ -549,7 +550,7 @@ function StepNotesSignature({ data, onChange }) {
   );
 }
 
-function SuccessScreen({ onReset }) {
+function SuccessScreen({ onReset, onDownloadPDF }) {
   return (
     <div className="text-center py-16">
       <div className="w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-6">
@@ -559,12 +560,21 @@ function SuccessScreen({ onReset }) {
       <p className="text-neutral-700 max-w-md mx-auto mb-8">
         Thank you for completing your Life Coaching Assessment. Your coach will review your responses and reach out to discuss next steps.
       </p>
-      <button
-        onClick={onReset}
-        className="px-8 py-3.5 bg-primary text-white font-medium rounded-full hover:bg-primary-light transition-colors cursor-pointer border-none text-base"
-      >
-        Submit Another Assessment
-      </button>
+      <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+        <button
+          onClick={onDownloadPDF}
+          className="flex items-center gap-2 px-8 py-3.5 bg-primary text-white font-medium rounded-full hover:bg-primary-light transition-colors cursor-pointer border-none text-base"
+        >
+          <Download className="w-4 h-4" />
+          Download PDF
+        </button>
+        <button
+          onClick={onReset}
+          className="px-8 py-3.5 bg-neutral-100 text-neutral-700 font-medium rounded-full hover:bg-neutral-200 transition-colors cursor-pointer border-none text-base"
+        >
+          Submit Another Assessment
+        </button>
+      </div>
     </div>
   );
 }
@@ -603,6 +613,9 @@ export default function AssessmentForm() {
   const [step, setStep] = useState(0);
   const [formData, setFormData] = useState(initialFormData);
   const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState('');
+  const pdfDocRef = useRef(null);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -623,16 +636,63 @@ export default function AssessmentForm() {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setSubmitted(true);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    setSubmitting(true);
+    setError('');
+
+    try {
+      // Generate PDF
+      const doc = generateAssessmentPDF(formData, LIFE_AREAS);
+      pdfDocRef.current = doc;
+
+      // Get PDF as base64
+      const pdfBase64 = doc.output('datauristring').split(',')[1];
+
+      // Send PDF to Vercel API route which emails it via Resend
+      const response = await fetch('/api/send-assessment', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          pdfBase64,
+          clientName: formData.fullName,
+          clientEmail: formData.email,
+        }),
+      });
+
+      const result = await response.json();
+      if (!result.success) {
+        throw new Error(result.error || 'Failed to send email');
+      }
+
+      setSubmitted(true);
+    } catch (err) {
+      console.error('Submission error:', err);
+      // Still show success and allow PDF download even if email fails
+      if (!pdfDocRef.current) {
+        const doc = generateAssessmentPDF(formData, LIFE_AREAS);
+        pdfDocRef.current = doc;
+      }
+      setSubmitted(true);
+    } finally {
+      setSubmitting(false);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  };
+
+  const handleDownloadPDF = () => {
+    if (pdfDocRef.current) {
+      const name = formData.fullName.replace(/\s+/g, '_') || 'assessment';
+      pdfDocRef.current.save(`Life_Coaching_Assessment_${name}.pdf`);
+    }
   };
 
   const handleReset = () => {
     setFormData(initialFormData);
     setStep(0);
     setSubmitted(false);
+    setError('');
+    pdfDocRef.current = null;
   };
 
   const renderStep = () => {
@@ -679,13 +739,18 @@ export default function AssessmentForm() {
 
           {submitted ? (
             <div className="bg-white rounded-2xl border border-neutral-200 shadow-sm p-6 sm:p-10">
-              <SuccessScreen onReset={handleReset} />
+              <SuccessScreen onReset={handleReset} onDownloadPDF={handleDownloadPDF} />
             </div>
           ) : (
             <div className="bg-white rounded-2xl border border-neutral-200 shadow-sm p-6 sm:p-10">
               <ProgressBar currentStep={step} totalSteps={STEPS.length} />
 
               <form onSubmit={handleSubmit}>
+                {error && (
+                  <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-xl text-red-700 text-sm text-center">
+                    {error}
+                  </div>
+                )}
                 {renderStep()}
 
                 {/* Navigation */}
@@ -707,10 +772,20 @@ export default function AssessmentForm() {
                   {isLastStep ? (
                     <button
                       type="submit"
-                      className="flex items-center gap-2 px-8 py-3 bg-primary text-white font-medium text-sm rounded-full hover:bg-primary-light transition-colors cursor-pointer border-none"
+                      disabled={submitting}
+                      className="flex items-center gap-2 px-8 py-3 bg-primary text-white font-medium text-sm rounded-full hover:bg-primary-light transition-colors cursor-pointer border-none disabled:opacity-60 disabled:cursor-not-allowed"
                     >
-                      Submit Assessment
-                      <CheckCircle className="w-4 h-4" />
+                      {submitting ? (
+                        <>
+                          <Loader2 className="w-4 h-4 animate-spin" />
+                          Submitting...
+                        </>
+                      ) : (
+                        <>
+                          Submit Assessment
+                          <CheckCircle className="w-4 h-4" />
+                        </>
+                      )}
                     </button>
                   ) : (
                     <button
