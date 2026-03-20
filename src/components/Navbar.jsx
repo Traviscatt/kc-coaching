@@ -14,11 +14,11 @@ export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
-  const isPortal = location.pathname.startsWith('/portal');
+  const isSubPage = location.pathname !== '/';
 
   const handleNavClick = useCallback((e, href) => {
     setMobileOpen(false);
-    if (isPortal) {
+    if (isSubPage) {
       e.preventDefault();
       navigate('/');
       setTimeout(() => {
@@ -28,7 +28,7 @@ export default function Navbar() {
         }
       }, 100);
     }
-  }, [isPortal, navigate]);
+  }, [isSubPage, navigate]);
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-md border-b border-neutral-200 shadow-sm">
@@ -52,6 +52,12 @@ export default function Navbar() {
                 {link.label}
               </a>
             ))}
+            <Link
+              to="/assessment"
+              className="text-sm font-medium text-neutral-700 hover:text-primary transition-colors no-underline"
+            >
+              Assessment
+            </Link>
             <Link
               to="/portal"
               className="ml-2 px-5 py-2 bg-primary text-white text-sm font-medium rounded-full hover:bg-primary-light transition-colors no-underline"
@@ -85,6 +91,13 @@ export default function Navbar() {
                 {link.label}
               </a>
             ))}
+            <Link
+              to="/assessment"
+              onClick={() => setMobileOpen(false)}
+              className="block text-base font-medium text-neutral-700 hover:text-primary transition-colors no-underline py-2"
+            >
+              Assessment
+            </Link>
             <Link
               to="/portal"
               onClick={() => setMobileOpen(false)}
