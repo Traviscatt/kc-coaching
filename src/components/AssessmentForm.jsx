@@ -550,7 +550,7 @@ function StepNotesSignature({ data, onChange }) {
   );
 }
 
-function SuccessScreen({ onReset, onDownloadPDF }) {
+function SuccessScreen({ onReset, onDownloadPDF, emailError }) {
   return (
     <div className="text-center py-16">
       <div className="w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-6">
@@ -560,6 +560,11 @@ function SuccessScreen({ onReset, onDownloadPDF }) {
       <p className="text-neutral-700 max-w-md mx-auto mb-8">
         Thank you for completing your Life Coaching Assessment. Your coach will review your responses and reach out to discuss next steps.
       </p>
+      {emailError && (
+        <div className="mb-6 p-4 bg-amber-50 border border-amber-200 rounded-xl text-amber-800 text-sm max-w-md mx-auto">
+          {emailError}
+        </div>
+      )}
       <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
         <button
           onClick={onDownloadPDF}
@@ -668,6 +673,7 @@ export default function AssessmentForm() {
       setSubmitted(true);
     } catch (err) {
       console.error('Submission error:', err);
+      setError(`Email may not have sent (${err.message}), but you can still download your PDF below.`);
       // Still show success and allow PDF download even if email fails
       if (!pdfDocRef.current) {
         const doc = generateAssessmentPDF(formData, LIFE_AREAS);
@@ -739,7 +745,7 @@ export default function AssessmentForm() {
 
           {submitted ? (
             <div className="bg-white rounded-2xl border border-neutral-200 shadow-sm p-6 sm:p-10">
-              <SuccessScreen onReset={handleReset} onDownloadPDF={handleDownloadPDF} />
+              <SuccessScreen onReset={handleReset} onDownloadPDF={handleDownloadPDF} emailError={error} />
             </div>
           ) : (
             <div className="bg-white rounded-2xl border border-neutral-200 shadow-sm p-6 sm:p-10">
