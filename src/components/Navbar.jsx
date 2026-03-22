@@ -54,7 +54,7 @@ export default function Navbar() {
             </Link>
             <Link
               to="/portal"
-              className="ml-2 px-5 py-2 bg-accent text-neutral-900 text-sm font-medium rounded-full hover:bg-accent-light transition-colors no-underline"
+              className="ml-2 px-5 py-2 bg-primary text-white text-sm font-medium rounded-full hover:bg-primary-light transition-colors no-underline"
             >
               Client Portal
             </Link>
@@ -95,7 +95,7 @@ export default function Navbar() {
             <Link
               to="/portal"
               onClick={() => setMobileOpen(false)}
-              className="block text-center px-5 py-3 bg-accent text-neutral-900 font-medium rounded-full hover:bg-accent-light transition-colors no-underline mt-2"
+              className="block text-center px-5 py-3 bg-primary text-white font-medium rounded-full hover:bg-primary-light transition-colors no-underline mt-2"
             >
               Client Portal
             </Link>
