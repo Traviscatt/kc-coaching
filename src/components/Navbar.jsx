@@ -26,13 +26,13 @@ export default function Navbar() {
   }, [isSubPage, navigate]);
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-md border-b border-neutral-200 shadow-sm">
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-[#0a1628] shadow-md">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2 no-underline">
-            <span className="text-2xl font-serif font-bold text-primary">KC</span>
-            <span className="text-sm font-medium text-neutral-700 tracking-wide uppercase">Coaching</span>
+            <span className="text-2xl font-serif font-bold text-accent">KC</span>
+            <span className="text-sm font-medium text-white tracking-wide uppercase">Coaching</span>
           </Link>
 
           {/* Desktop Nav */}
@@ -42,20 +42,20 @@ export default function Navbar() {
                 key={link.label}
                 href={link.href}
                 onClick={(e) => handleNavClick(e, link.href)}
-                className="text-sm font-medium text-neutral-700 hover:text-primary transition-colors no-underline"
+                className="text-sm font-medium text-white hover:text-accent transition-colors no-underline"
               >
                 {link.label}
               </a>
             ))}
             <Link
               to="/assessment"
-              className="text-sm font-medium text-neutral-700 hover:text-primary transition-colors no-underline"
+              className="text-sm font-medium text-white hover:text-accent transition-colors no-underline"
             >
               Assessment
             </Link>
             <Link
               to="/portal"
-              className="ml-2 px-5 py-2 bg-primary text-white text-sm font-medium rounded-full hover:bg-primary-light transition-colors no-underline"
+              className="ml-2 px-5 py-2 bg-accent text-neutral-900 text-sm font-medium rounded-full hover:bg-accent-light transition-colors no-underline"
             >
               Client Portal
             </Link>
@@ -64,7 +64,7 @@ export default function Navbar() {
           {/* Mobile Menu Button */}
           <button
             onClick={() => setMobileOpen(!mobileOpen)}
-            className="md:hidden p-2 text-neutral-700 hover:text-primary transition-colors bg-transparent border-none cursor-pointer"
+            className="md:hidden p-2 text-white hover:text-accent transition-colors bg-transparent border-none cursor-pointer"
             aria-label="Toggle menu"
           >
             {mobileOpen ? <X size={24} /> : <Menu size={24} />}
@@ -74,14 +74,14 @@ export default function Navbar() {
 
       {/* Mobile Nav */}
       {mobileOpen && (
-        <div className="md:hidden bg-white border-t border-neutral-200 shadow-lg">
+        <div className="md:hidden bg-[#0a1628] border-t border-white/10 shadow-lg">
           <div className="px-4 py-4 space-y-3">
             {navLinks.map((link) => (
               <a
                 key={link.label}
                 href={link.href}
                 onClick={(e) => handleNavClick(e, link.href)}
-                className="block text-base font-medium text-neutral-700 hover:text-primary transition-colors no-underline py-2"
+                className="block text-base font-medium text-white hover:text-accent transition-colors no-underline py-2"
               >
                 {link.label}
               </a>
@@ -89,14 +89,14 @@ export default function Navbar() {
             <Link
               to="/assessment"
               onClick={() => setMobileOpen(false)}
-              className="block text-base font-medium text-neutral-700 hover:text-primary transition-colors no-underline py-2"
+              className="block text-base font-medium text-white hover:text-accent transition-colors no-underline py-2"
             >
               Assessment
             </Link>
             <Link
               to="/portal"
               onClick={() => setMobileOpen(false)}
-              className="block text-center px-5 py-3 bg-primary text-white font-medium rounded-full hover:bg-primary-light transition-colors no-underline mt-2"
+              className="block text-center px-5 py-3 bg-accent text-neutral-900 font-medium rounded-full hover:bg-accent-light transition-colors no-underline mt-2"
             >
               Client Portal
             </Link>
