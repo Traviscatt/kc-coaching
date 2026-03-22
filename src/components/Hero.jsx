@@ -16,13 +16,6 @@ export default function Hero() {
 
       {/* Content */}
       <div className="relative z-10 text-center px-4 sm:px-6 max-w-4xl mx-auto mb-8 sm:mb-12 mt-auto">
-        {/* Logo */}
-        <div className="mb-8">
-          <h1 className="text-5xl sm:text-6xl md:text-7xl font-serif font-bold text-white tracking-tight">
-            KC <span className="text-accent">Coaching</span>
-          </h1>
-        </div>
-
         {/* Quote */}
         <blockquote className="mb-10">
           <p className="text-xl sm:text-2xl md:text-3xl font-serif italic text-white/90 leading-relaxed">
