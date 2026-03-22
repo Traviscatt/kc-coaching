@@ -29,36 +29,34 @@ export default function About() {
           {/* Content */}
           <div>
             <h3 className="text-2xl sm:text-3xl font-serif font-semibold text-neutral-900 mb-6">
-              Empowering You to Live Your Best Life
+              Hi Friends! Welcome.
             </h3>
             <p className="text-neutral-700 leading-relaxed mb-6">
-              Welcome! I'm a certified life coach dedicated to helping individuals unlock their
-              full potential and create meaningful, lasting change. With years of experience in
-              personal development and coaching, I provide a supportive, judgment-free space
-              where you can explore your goals and overcome obstacles.
+              I have been married to my husband, Travis, for 23 years and we have two beautiful boys who are the best gift God could have given us. They both have special needs so that has shaped who I am and how I coach.
+            </p>
+            <p className="text-neutral-700 leading-relaxed mb-6">
+              I have my bachelor's in business marketing and worked with non-profits post college pre kids. I have always been a very relational person so once my boys reached an age where I wanted to have something to pour into outside of the home, coaching seemed to be a very natural fit.
             </p>
             <p className="text-neutral-700 leading-relaxed mb-8">
-              My approach combines evidence-based coaching techniques with genuine compassion.
-              Whether you're navigating a career transition, improving relationships, or seeking
-              greater clarity in life, I'm here to guide you every step of the way.
+              I am in the process of becoming a certified life coach through Professional Christian Coaching Institute (which is an ICF certified training institute) but am excited to start seeing a limited number of clients as I finish my training this year!
             </p>
 
             {/* Stats */}
             <div className="grid grid-cols-3 gap-6">
               <div className="text-center p-4 bg-neutral-50 rounded-xl">
                 <Heart className="w-6 h-6 text-primary mx-auto mb-2" />
-                <div className="text-2xl font-bold text-primary">500+</div>
-                <div className="text-xs text-neutral-700 mt-1">Clients Helped</div>
+                <div className="text-2xl font-bold text-primary">Faith</div>
+                <div className="text-xs text-neutral-700 mt-1">Centered</div>
               </div>
               <div className="text-center p-4 bg-neutral-50 rounded-xl">
                 <Award className="w-6 h-6 text-primary mx-auto mb-2" />
-                <div className="text-2xl font-bold text-primary">10+</div>
-                <div className="text-xs text-neutral-700 mt-1">Years Experience</div>
+                <div className="text-2xl font-bold text-primary">ICF</div>
+                <div className="text-xs text-neutral-700 mt-1">Certified Training</div>
               </div>
               <div className="text-center p-4 bg-neutral-50 rounded-xl">
                 <Users className="w-6 h-6 text-primary mx-auto mb-2" />
-                <div className="text-2xl font-bold text-primary">98%</div>
-                <div className="text-xs text-neutral-700 mt-1">Satisfaction</div>
+                <div className="text-2xl font-bold text-primary">PCCI</div>
+                <div className="text-xs text-neutral-700 mt-1">Trained Coach</div>
               </div>
             </div>
           </div>

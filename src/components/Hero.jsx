@@ -26,11 +26,8 @@ export default function Hero() {
         {/* Quote */}
         <blockquote className="mb-10">
           <p className="text-xl sm:text-2xl md:text-3xl font-serif italic text-white/90 leading-relaxed">
-            "The only person you are destined to become is the person you decide to be."
+            "God is calling you to change the world one life at a time, one step at a time. Begin today where you are."
           </p>
-          <footer className="mt-4 text-sm sm:text-base text-accent-light font-medium tracking-wide uppercase">
-            — Ralph Waldo Emerson
-          </footer>
         </blockquote>
 
         {/* CTA */}
