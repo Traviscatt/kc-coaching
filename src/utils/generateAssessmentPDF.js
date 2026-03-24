@@ -1,10 +1,10 @@
 import { jsPDF } from 'jspdf';
 
-const PRIMARY = [44, 95, 74];
+const PRIMARY = [10, 22, 40];
 const DARK = [26, 26, 26];
 const GRAY = [100, 100, 100];
 const LIGHT_BG = [245, 245, 245];
-const TABLE_HEADER = [44, 95, 74];
+const TABLE_HEADER = [10, 22, 40];
 const TABLE_HEADER_TEXT = [255, 255, 255];
 const TABLE_ALT = [248, 248, 248];
 
@@ -109,22 +109,26 @@ export default function generateAssessmentPDF(formData, lifeAreas) {
   y += rowHeight;
 
   // Table rows
+  const commentColWidth = contentWidth - (contentWidth * 0.7) - 3;
   lifeAreas.forEach((area, i) => {
-    checkPage(rowHeight + 2);
     const data = formData.lifeAreas[area] || {};
-    if (i % 2 === 0) {
-      doc.setFillColor(...TABLE_ALT);
-      doc.rect(col1, y - 4, contentWidth, rowHeight, 'F');
-    }
+    const comment = data.comment || '';
     doc.setFontSize(8);
     doc.setFont('helvetica', 'normal');
+    const commentLines = comment ? doc.splitTextToSize(comment, commentColWidth) : [''];
+    const neededHeight = Math.max(rowHeight, commentLines.length * 4 + 3);
+    checkPage(neededHeight + 2);
+    if (i % 2 === 0) {
+      doc.setFillColor(...TABLE_ALT);
+      doc.rect(col1, y - 4, contentWidth, neededHeight, 'F');
+    }
     doc.setTextColor(...DARK);
     doc.text(area, col1 + 3, y);
     doc.text(data.rating || '—', col2 + 3, y);
-    const comment = data.comment || '';
-    const truncated = comment.length > 30 ? comment.substring(0, 28) + '...' : comment;
-    doc.text(truncated, col3 + 3, y);
-    y += rowHeight;
+    commentLines.forEach((line, li) => {
+      doc.text(line, col3 + 3, y + (li * 4));
+    });
+    y += neededHeight;
   });
   y += 5;
 
@@ -178,7 +182,8 @@ export default function generateAssessmentPDF(formData, lifeAreas) {
   doc.setFont('helvetica', 'normal');
   doc.setTextColor(...GRAY);
   doc.text(`Client Signature`, margin, y);
-  doc.text(`Date: ${formData.signatureDate || ''}`, margin + 90, y);
+  const sigDate = formData.signatureDate || new Date().toLocaleDateString('en-US');
+  doc.text(`Date: ${sigDate}`, margin + 90, y);
 
   return doc;
 }

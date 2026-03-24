@@ -586,7 +586,7 @@ function SuccessScreen({ onReset, onDownloadPDF, emailError }) {
 
 const initialFormData = {
   fullName: '',
-  assessmentDate: '',
+  assessmentDate: new Date().toISOString().split('T')[0],
   email: '',
   phone: '',
   lifeAreas: LIFE_AREAS.reduce((acc, area) => {
@@ -611,7 +611,7 @@ const initialFormData = {
   sessionFrequency: '',
   additionalNotes: '',
   signature: '',
-  signatureDate: '',
+  signatureDate: new Date().toISOString().split('T')[0],
 };
 
 export default function AssessmentForm() {
