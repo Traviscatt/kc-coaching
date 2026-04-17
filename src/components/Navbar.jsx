@@ -53,6 +53,12 @@ export default function Navbar() {
               Assessment
             </Link>
             <Link
+              to="/favorites"
+              className="text-sm font-medium text-white hover:text-accent transition-colors no-underline"
+            >
+              Favorite Things
+            </Link>
+            <Link
               to="/portal"
               className="ml-2 px-5 py-2 bg-primary text-white text-sm font-medium rounded-full hover:bg-primary-light transition-colors no-underline"
             >
@@ -91,6 +97,13 @@ export default function Navbar() {
               className="block text-base font-medium text-white hover:text-accent transition-colors no-underline py-2"
             >
               Assessment
+            </Link>
+            <Link
+              to="/favorites"
+              onClick={() => setMobileOpen(false)}
+              className="block text-base font-medium text-white hover:text-accent transition-colors no-underline py-2"
+            >
+              Favorite Things
             </Link>
             <Link
               to="/portal"
