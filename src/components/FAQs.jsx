@@ -5,22 +5,22 @@ const faqs = [
   {
     question: 'What is life coaching?',
     answer:
-      'Life coaching is a supportive, collaborative partnership where I help you gain clear insight into your current situation, define meaningful goals, identify what\'s holding you back, and create practical action steps to move forward. Through thoughtful questions, active listening, and accountability, sessions focus on bridging the gap between where you are now and where you want to be—empowering you to make positive changes in areas like career, relationships, health, or personal growth.\n\nGrounded in faith, I incorporate spiritual wisdom and a sense of higher purpose to guide you toward living more authentically, aligning your pursuits with your core values, and advancing with hope, resilience, and deeper direction.',
+      'Life coaching is a supportive partnership where I walk alongside you, as you figure out what you really want and help you get there. Think of it as having a trusted guide in your corner - someone who listens without judgement, asks the right questions, and helps you move past what\'s holding you back so you can create a life that feels more fulfilling and aligned with who you are. Sessions focus on bridging the gap between where you are now and where you want to be - empowering you to make positive changes in areas like career, relationships, health or personal growth.\n\nIt\'s not therapy or advice-giving. It\'s about empowering you to tap into your own wisdom, take meaningful action and build the changes you have been dreaming of.',
   },
   {
-    question: 'Why Have a Life Coach?',
+    question: 'Why have a life coach?',
     answer:
-      'Because growth is faster when you\'re not doing it alone.\n\nA life coach helps you:\n\n✔ Get clear on what you actually want\n✔ Turn goals into real plans\n✔ Stay accountable when motivation fades\n✔ Break through mental blocks\n✔ Build confidence and momentum\n\nThink of it like this — athletes, CEOs, and high performers all have coaches… not because they\'re failing, but because they want to win faster.\n\nYou don\'t need to be stuck to benefit from a life coach. You just need to be ready for more.',
+      'Because growth happens faster when you\'re not doing it alone.\n\nA life coach helps you:\n\n-Get clear on what you actually want\n-Turn goals into real plans\n-Stay accountable when motivation fades\n-Break through mental blocks\n-Build confidence and momentum\n\nEveryone from athletes to CEOs have coaches and it\'s not because they\'re failing, it\'s because they want to be the best they can be in their field. Whether it\'s your career, relationships, health or personal growth, I\'ll support you in getting clear on what matters most, overcome what\'s been holding you back, and take consistent action toward a life that feels more purposeful and fulfilling.',
   },
   {
     question: 'How long are coaching sessions?',
     answer:
-      'Each session typically lasts 50-60 minutes. Sessions are conducted via video call, phone, or in-person depending on your preference and location.',
+      'Each session is 45 minutes. Sessions are conducted via zoom, phone or in-person depending on your preference and location.',
   },
   {
     question: 'How many sessions will I need?',
     answer:
-      'The number of sessions varies based on your goals. Many clients see meaningful progress within 6-12 sessions. We\'ll discuss a recommended plan during your initial consultation.',
+      'The number of sessions will vary based on your goals. I recommend new clients commit to 3 months of sessions and than re-evaluate from there. We will discuss a recommended plan during your initial consultation.',
   },
   {
     question: 'What can I expect from the first session?',

@@ -63,7 +63,7 @@ export default function Schedule() {
           </div>
           <div className="flex flex-col items-center text-center p-6 bg-neutral-50 rounded-xl">
             <Clock className="w-8 h-8 text-primary mb-3" />
-            <h3 className="font-semibold text-neutral-900 mb-1">30 Minutes</h3>
+            <h3 className="font-semibold text-neutral-900 mb-1">20 Minutes</h3>
             <p className="text-sm text-neutral-700">Free introductory consultation call</p>
           </div>
           <div className="flex flex-col items-center text-center p-6 bg-neutral-50 rounded-xl">
